@@ -124,7 +124,7 @@ function StereoAudioRecorder(mediaStream, config) {
             var numberOfAudioChannels = config.numberOfAudioChannels;
 
             // todo: "slice(0)" --- is it causes loop? Should be removed?
-            var leftBuffers = config.leftBuffers.slice(0);
+            var  = config.leftBuffers.slice(0);
             var rightBuffers = config.rightBuffers.slice(0);
             var sampleRate = config.sampleRate;
             var internalInterleavedLength = config.internalInterleavedLength;
