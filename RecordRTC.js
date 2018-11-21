@@ -2561,8 +2561,8 @@ function StereoAudioRecorder(mediaStream, config) {
 
     function mergeLeftRightBuffers(config, callback) {
         console.log("masuk mergeLeftRightBuffers!");
-        console.log(config.leftBuffers);
-        console.log(config.rightBuffers);
+        // console.log(config.leftBuffers.length);
+        // console.log(config.rightBuffers.length);
         function mergeAudioBuffers(config, cb) {
             console.log("masuk mergeAudioBuffers!");
             var numberOfAudioChannels = config.numberOfAudioChannels;
@@ -2570,8 +2570,8 @@ function StereoAudioRecorder(mediaStream, config) {
             // todo: "slice(0)" --- is it causes loop? Should be removed?
             var leftBuffers = config.leftBuffers.slice(0);
             var rightBuffers = config.rightBuffers.slice(0);
-            console.log("leftBuffers: " + leftBuffers);
-            console.log("rightBuffers: " + rightBuffers);
+            console.log("leftBuffers: " + leftBuffers.length);
+            console.log("rightBuffers: " + rightBuffers.length);
 
             var sampleRate = config.sampleRate;
             var internalInterleavedLength = config.internalInterleavedLength;
@@ -3046,6 +3046,7 @@ function StereoAudioRecorder(mediaStream, config) {
 
     function onAudioProcessDataAvailable(e) {
         console.log("masuk onAudioProcessDataAvailable!");
+        console.log(e);
         if (isPaused) {
             return;
         }
@@ -3105,15 +3106,16 @@ function StereoAudioRecorder(mediaStream, config) {
 
         // export raw PCM
         self.recordingLength = recordingLength;
-        console.log("start exporting raw PCM");
+        // console.log("start exporting raw PCM");
 
         // clean array
+        // CLEAN WHEN BUFFER IS TOO LONG (still hardcoded)
         if(leftchannel.length >= 300 || rightchannel.length >= 300) {
             clearAudioArray();
         }
 
-        console.log("leftchannel length: " + leftchannel.length);
-        console.log("rightchannel length: " + rightchannel.length);
+        // console.log("leftchannel length: " + leftchannel.length);
+        // console.log("rightchannel length: " + rightchannel.length);
 
         if (typeof config.timeSlice !== 'undefined') {
             intervalsBasedBuffers.recordingLength += bufferSize;
