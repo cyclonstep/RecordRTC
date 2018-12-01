@@ -2030,7 +2030,6 @@ function MediaStreamRecorder(mediaStream, config) {
      * recorder.record();
      */
     this.record = function() {
-        console.log("this.record() ignited!");
         // set defaults
         self.blob = null;
         self.clearRecordedData();
@@ -2545,7 +2544,6 @@ function StereoAudioRecorder(mediaStream, config) {
      * recorder.record();
      */
     this.record = function() {
-        console.log("Recorder is running!");
         if (isMediaStreamActive() === false) {
             throw 'Please make sure MediaStream is active.';
         }
@@ -2557,24 +2555,19 @@ function StereoAudioRecorder(mediaStream, config) {
         recording = true;
 
         if (typeof config.timeSlice !== 'undefined') {
-            console.log("config.timeslice !== undefined!");
             looper();
         }
     };
 
     function mergeLeftRightBuffers(config, callback) {
-        console.log("masuk mergeLeftRightBuffers!");
         // console.log(config.leftBuffers.length);
         // console.log(config.rightBuffers.length);
         function mergeAudioBuffers(config, cb) {
-            console.log("masuk mergeAudioBuffers!");
             var numberOfAudioChannels = config.numberOfAudioChannels;
 
             // todo: "slice(0)" --- is it causes loop? Should be removed?
             var leftBuffers = config.leftBuffers.slice(0);
             var rightBuffers = config.rightBuffers.slice(0);
-            console.log("leftBuffers: " + leftBuffers.length);
-            console.log("rightBuffers: " + rightBuffers.length);
 
             var sampleRate = config.sampleRate;
             var internalInterleavedLength = config.internalInterleavedLength;
@@ -2768,7 +2761,6 @@ function StereoAudioRecorder(mediaStream, config) {
     }
 
     function processInWebWorker(_function) {
-        console.log("masuk processInWebWorker");
         var workerURL = URL.createObjectURL(new Blob([_function.toString(),
             ';this.onmessage =  function (eee) {' + _function.name + '(eee.data);}'
         ], {
@@ -2863,11 +2855,9 @@ function StereoAudioRecorder(mediaStream, config) {
     }
 
     var context = Storage.AudioContextConstructor;
-    console.log("Created context!");
 
     // creates an audio node from the microphone incoming stream
     var audioInput = context.createMediaStreamSource(mediaStream);
-    console.log("Created audio input node!");
 
     var legalBufferValues = [0, 256, 512, 1024, 2048, 4096, 8192, 16384];
 
@@ -2898,21 +2888,17 @@ function StereoAudioRecorder(mediaStream, config) {
 
     if (context.createJavaScriptNode) {
         jsAudioNode = context.createJavaScriptNode(bufferSize, numberOfAudioChannels, numberOfAudioChannels);
-        console.log("jsAudioNode is JavaScriptNode!");
     } else if (context.createScriptProcessor) {
         jsAudioNode = context.createScriptProcessor(bufferSize, numberOfAudioChannels, numberOfAudioChannels);
-        console.log("jsAudioNode is ScriptProcessor!");
     } else {
         throw 'WebAudio API has no support on this browser.';
     }
 
     // connect the stream to the script processor
     audioInput.connect(jsAudioNode);
-    console.log("stream connected to node!");
 
     if (!config.bufferSize) {
         bufferSize = jsAudioNode.bufferSize; // device buffer-size
-        console.log("buffersize: " + bufferSize);
     }
 
     /**
@@ -3000,7 +2986,6 @@ function StereoAudioRecorder(mediaStream, config) {
     };
 
     function resetVariables() {
-        console.log("masuk resetVariables!");
         leftchannel = [];
         rightchannel = [];
         recordingLength = 0;
@@ -3024,7 +3009,6 @@ function StereoAudioRecorder(mediaStream, config) {
     }
 
     function clearRecordedDataCB() {
-        console.log("Masuk clearRecordedDataCB");
         if (jsAudioNode) {
             jsAudioNode.onaudioprocess = null;
             jsAudioNode.disconnect();
@@ -3048,8 +3032,6 @@ function StereoAudioRecorder(mediaStream, config) {
     var isAudioProcessStarted = false;
 
     function onAudioProcessDataAvailable(e) {
-        console.log("masuk onAudioProcessDataAvailable!");
-        console.log(e);
         if (isPaused) {
             return;
         }
@@ -3078,14 +3060,12 @@ function StereoAudioRecorder(mediaStream, config) {
          * recorder.onAudioProcessStarted: function() { };
          */
         if (!isAudioProcessStarted) {
-            console.log("masuk !isAudioProcessStarted");
             isAudioProcessStarted = true;
             if (config.onAudioProcessStarted) {
                 config.onAudioProcessStarted();
             }
 
             if (config.initCallback) {
-                console.log("masuk initCallback");
                 config.initCallback();
             }
         }
@@ -3167,14 +3147,12 @@ function StereoAudioRecorder(mediaStream, config) {
     }
 
     function clearAudioArray () {
-        console.log("masuk clear audio array");
         leftchannel = [];
         rightchannel = [];
     }
 
     // this looper is used to support intervals based blobs (via timeSlice+ondataavailable)
     function looper() {
-        console.log("Looper koran start!");
         if (!recording || typeof config.ondataavailable !== 'function' || typeof config.timeSlice === 'undefined') {
             return;
         }
