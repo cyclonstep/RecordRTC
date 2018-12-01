@@ -3123,10 +3123,10 @@ function StereoAudioRecorder(mediaStream, config) {
         if (typeof config.timeSlice !== 'undefined') {
             intervalsBasedBuffers.recordingLength += bufferSize;
             intervalsBasedBuffers.left.push(chLeft);
-            console.log(intervalsBasedBuffers.left.length());
+            console.log(intervalsBasedBuffers.left.length);
             if (numberOfAudioChannels === 2) {
                 intervalsBasedBuffers.right.push(chRight);
-                console.log(intervalsBasedBuffers.right.length());
+                console.log(intervalsBasedBuffers.right.length);
             }
         }
         // console.log("")
