@@ -2030,6 +2030,7 @@ function MediaStreamRecorder(mediaStream, config) {
      * recorder.record();
      */
     this.record = function() {
+        console.log("this.record() ignited!");
         // set defaults
         self.blob = null;
         self.clearRecordedData();
@@ -2091,6 +2092,8 @@ function MediaStreamRecorder(mediaStream, config) {
                 if (e.data && e.data.size && e.data.size > 100) {
                     arrayOfBlobs.push(e.data);
                     updateTimeStamp();
+
+                    console.log("arrayOfBlobs length: " + arrayOfBlobs.length);
 
                     if (typeof config.ondataavailable === 'function') {
                         // intervals based blobs
@@ -2542,6 +2545,7 @@ function StereoAudioRecorder(mediaStream, config) {
      * recorder.record();
      */
     this.record = function() {
+        console.log("record #2 ignite!");
         if (isMediaStreamActive() === false) {
             throw 'Please make sure MediaStream is active.';
         }
@@ -3118,6 +3122,7 @@ function StereoAudioRecorder(mediaStream, config) {
 
     // this looper is used to support intervals based blobs (via timeSlice+ondataavailable)
     function looper() {
+        console.log("Looper koran start!");
         if (!recording || typeof config.ondataavailable !== 'function' || typeof config.timeSlice === 'undefined') {
             return;
         }
