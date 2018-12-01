@@ -3123,11 +3123,15 @@ function StereoAudioRecorder(mediaStream, config) {
         if (typeof config.timeSlice !== 'undefined') {
             intervalsBasedBuffers.recordingLength += bufferSize;
             intervalsBasedBuffers.left.push(chLeft);
-            console.log(intervalsBasedBuffers.left.length);
             if (numberOfAudioChannels === 2) {
                 intervalsBasedBuffers.right.push(chRight);
-                console.log(intervalsBasedBuffers.right.length);
             }
+        }
+
+        // clean array
+        // CLEAN WHEN BUFFER IS TOO LONG (ONLY WHEN YOU ARE USING TIMESLICE)
+        if (leftchannel.length >= config.timeSlice || rightchannel.length >= config.timeSlice) {
+            clearAudioArray();
         }
         // console.log("")
     }
